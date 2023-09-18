@@ -35,11 +35,11 @@ public class Phone implements Serializable {
   private PlatformUserEntity platformUser;
 
   @JsonProperty("number")
-  private Integer number;
+  private Long number;
 
   @JsonProperty("citycode")
   private Integer cityCode;
 
   @JsonProperty("countrycode")
-  private Integer countryCode;
+  private String countryCode;
 }

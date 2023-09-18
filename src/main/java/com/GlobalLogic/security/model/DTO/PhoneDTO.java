@@ -1,6 +1,5 @@
 package com.GlobalLogic.security.model.DTO;
 
-import com.GlobalLogic.security.model.Phone;
 import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,10 +16,10 @@ public class PhoneDTO implements Serializable {
 
   private static final long serialVersionUID = 5926468583005150707L;
 
-  private Integer number;
+  private Long number;
 
   private Integer cityCode;
 
-  private Integer countryCode;
+  private String countryCode;
 
 }

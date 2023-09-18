@@ -1,0 +1,80 @@
+{
+	"info": {
+		"_postman_id": "4c3fcb3a-b1a9-456d-8653-9e212c1f424a",
+		"name": "GlobalLogic",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "localhost:8083/api/v1/auth/register",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"name\": \"lautaro vizzari\",\n\"email\": \"vizzari.lautaroo@gmail.com\",\n\"password\": \"a2asfGfdfdf4\",\n\"phones\": [\n\t{\n\t\"number\": 123123233,\n\t\"citycode\": 7,\n\t\"countrycode\": \"35\"\n\t},\n    {\n\t\"number\": 123125563,\n\t\"citycode\": 7,\n\t\"countrycode\": \"37\"\n\t}\n\t]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8083/api/v1/auth/register",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8083/api/v1/auth/login",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ2aXp6YXJpLmxhdXRhcm9vQGdtYWlsLmNvbSIsImV4cCI6MTY5NTA5OTY3OX0.rydJtA5LvTzwcCyWZVD3cnP4uax2YT44YXuPDJrkLBQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ2aXp6YXJpLmxhdXRhcm85ODhvQGdtYWlsLmNvbSIsImV4cCI6MTY5NDUyNzcyOX0.j6sEE9_UWkTFw-fXZCJyXvSIEC92ESUK806wNFXheq8",
+						"type": "default",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "localhost:8083/api/v1/auth/login",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
