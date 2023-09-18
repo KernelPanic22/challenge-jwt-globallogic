@@ -53,9 +53,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         .isActive(user.getIsActive())
         .name(user.getName()).email(user.getEmail())
         .password(user.getPassword())
-        .phones(user.getPhones().stream().map(
+        .phones(Objects.nonNull(user.getPhones()) ? user.getPhones().stream().map(
             phone -> PhoneDTO.builder().number(phone.getNumber()).cityCode(phone.getCityCode())
-                .countryCode(phone.getCountryCode()).build()).collect(Collectors.toList()))
+                .countryCode(phone.getCountryCode()).build()).collect(Collectors.toList()): null)
         .build());
   }
 

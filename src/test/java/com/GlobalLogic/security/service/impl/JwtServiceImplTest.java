@@ -72,7 +72,7 @@ class JwtServiceImplTest {
 
     UserDetails userDetails = createUserDetails();
     PlatformUserEntity user = PlatformUserEntity.build(userDetails);
-    when(tokenRepository.findByToken(token)).thenReturn(Token.builder().id(Long.valueOf(1)).tokenValue(token).user(user).build());
+    when(tokenRepository.findByTokenValue(token)).thenReturn(Token.builder().id(Long.valueOf(1)).tokenValue(token).user(user).build());
 
     assertTrue(jwtService.validateToken(token, userDetails));
   }
@@ -82,7 +82,7 @@ class JwtServiceImplTest {
     String expiredToken = createExpiredToken();
 
     UserDetails userDetails = createUserDetails();
-    when(tokenRepository.findByToken(expiredToken)).thenReturn(new Token());
+    when(tokenRepository.findByTokenValue(expiredToken)).thenReturn(new Token());
 
     assertFalse(jwtService.validateToken(expiredToken, userDetails));
   }
@@ -92,7 +92,7 @@ class JwtServiceImplTest {
     String invalidToken = "invalid-token";
 
     UserDetails userDetails = createUserDetails();
-    when(tokenRepository.findByToken(invalidToken)).thenReturn(null);
+    when(tokenRepository.findByTokenValue(invalidToken)).thenReturn(null);
 
     assertFalse(jwtService.validateToken(invalidToken, userDetails));
   }
