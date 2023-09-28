@@ -1,6 +1,5 @@
 package com.GlobalLogic.security.model.DTO;
 
-import com.GlobalLogic.security.model.Phone;
 import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;

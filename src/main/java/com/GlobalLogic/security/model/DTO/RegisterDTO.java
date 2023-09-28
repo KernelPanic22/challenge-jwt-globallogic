@@ -1,6 +1,5 @@
 package com.GlobalLogic.security.model.DTO;
 
-import com.GlobalLogic.security.model.Token;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

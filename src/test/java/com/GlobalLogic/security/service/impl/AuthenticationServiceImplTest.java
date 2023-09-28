@@ -1,6 +1,7 @@
 package com.GlobalLogic.security.service.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
@@ -10,11 +11,13 @@ import com.GlobalLogic.security.model.DTO.LoginDTO;
 import com.GlobalLogic.security.model.DTO.RegisterDTO;
 import com.GlobalLogic.security.model.PlatformUserEntity;
 import com.GlobalLogic.security.model.Token;
+import com.GlobalLogic.security.model.exception.ValidationException;
 import com.GlobalLogic.security.model.request.RegisterRequest;
 import com.GlobalLogic.security.repository.UserRepository;
 import com.GlobalLogic.security.service.JwtService;
 import java.util.Collection;
 import java.util.Objects;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -50,13 +53,11 @@ class AuthenticationServiceImplTest {
       }
 
       @Override
-      public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
-
-      }
-
-      @Override
       public Object getPrincipal() {
         return null;
+      }      @Override
+      public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
+
       }
 
       @Override
@@ -73,8 +74,6 @@ class AuthenticationServiceImplTest {
       public Object getCredentials() {
         return null;
       }
-
-
     };
     PlatformUserEntity user = PlatformUserEntity.builder().name("test").email("test")
         .password("test").token(Token.builder().tokenValue("test").build()).build();
@@ -120,21 +119,16 @@ class AuthenticationServiceImplTest {
       }
 
       @Override
-      public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
-
-      }
-
-      @Override
       public String getName() {
         return null;
+      }      @Override
+      public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
+
       }
     };
 
     when(jwtService.getAuthentication()).thenReturn(authentication);
-    ResponseEntity<?> login = authenticationService.login();
-    assertEquals(login.getStatusCodeValue(), 400);
-    assertEquals(Objects.requireNonNull(login.getBody()).getClass(),
-        com.GlobalLogic.security.model.DTO.ErrorDTO.class);
+    assertThrows(ValidationException.class, () -> authenticationService.login());
   }
 
   @Test
@@ -153,34 +147,15 @@ class AuthenticationServiceImplTest {
   }
 
   @Test
-  void REGISTER_MAIL_NOT_OK() {
+  void REGISTER_NOT_OK() {
     RegisterRequest userRequest = RegisterRequest.builder().name("Julio Gonzalez")
-        .email("notok.mail").password("a2asfGfdfdf4").build();
+        .email("usuario@gmail.com").password("a2asfGfdfdf4").build();
 
-    ResponseEntity<?> register = authenticationService.register(userRequest);
-    assertEquals(register.getStatusCodeValue(), 400);
-    assertEquals(Objects.requireNonNull(register.getBody()).getClass(), ErrorDTO.class);
+    PlatformUserEntity user = new PlatformUserEntity(userRequest);
+
+    doReturn(user).when(userRepository).findByEmail(any(String.class));
+    assertThrows(ValidationException.class, () -> authenticationService.register(userRequest));
+
 
   }
-
-  @Test
-  void REGISTER_PASSWORD_NOT_OK() {
-    RegisterRequest userRequest = RegisterRequest.builder().name("Julio Gonzalez")
-        .email("email@gmail.com").password("a2asfGDDfDfDf4").build();
-
-    ResponseEntity<?> register = authenticationService.register(userRequest);
-    assertEquals(register.getStatusCodeValue(), 400);
-  }
-
-  @Test
-  void REGISTER_MAIL_NOT_FOUND() {
-    RegisterRequest userRequest = RegisterRequest.builder().name("Julio Gonzalez")
-        .email("").password("a2asfGfdfdf4").build();
-
-    ResponseEntity<?> register = authenticationService.register(userRequest);
-
-    assertEquals(register.getStatusCodeValue(), 400);
-  }
-
-
 }

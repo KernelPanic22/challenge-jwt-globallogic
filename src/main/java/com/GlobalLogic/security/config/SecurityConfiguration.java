@@ -1,6 +1,5 @@
 package com.GlobalLogic.security.config;
 
-
 import com.GlobalLogic.security.model.util.Role;
 import com.GlobalLogic.security.service.JwtService;
 import org.springframework.beans.factory.annotation.Value;

@@ -4,7 +4,7 @@ import com.GlobalLogic.security.model.PlatformUserEntity;
 import com.GlobalLogic.security.model.Token;
 import com.GlobalLogic.security.repository.TokenRepository;
 import com.GlobalLogic.security.service.JwtService;
-import com.GlobalLogic.security.service.impl.exception.TokenParseException;
+import com.GlobalLogic.security.service.exception.TokenParseException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -18,7 +18,6 @@ import java.util.Objects;
 import java.util.function.Function;
 import javax.servlet.http.HttpServletRequest;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -29,14 +28,17 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor
 public class JwtServiceImpl implements JwtService {
-
-  @Value("${SECRET_KEY}")
-  String SECRET_KEY;
 
   private final TokenRepository tokenRepository;
   private final UserDetailsService userDetailsService;
+  @Value("${SECRET_KEY}")
+  String SECRET_KEY;
+
+  public JwtServiceImpl(TokenRepository tokenRepository, UserDetailsService userDetailsService) {
+    this.tokenRepository = tokenRepository;
+    this.userDetailsService = userDetailsService;
+  }
 
   @Override
   public String extractToken() {
@@ -113,11 +115,11 @@ public class JwtServiceImpl implements JwtService {
     return claimsResolver.apply(claims);
   }
 
-  private Claims extractAllClaims(String token) throws TokenParseException{
-    try{
-    return Jwts.parserBuilder().setSigningKey(getSignInKey()).build().parseClaimsJws(token)
-        .getBody();
-    }catch (Exception e){
+  private Claims extractAllClaims(String token) throws TokenParseException {
+    try {
+      return Jwts.parserBuilder().setSigningKey(getSignInKey()).build().parseClaimsJws(token)
+          .getBody();
+    } catch (Exception e) {
       throw new TokenParseException("Invalid token");
     }
   }
