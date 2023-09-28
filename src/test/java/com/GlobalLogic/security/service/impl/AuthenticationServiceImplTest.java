@@ -6,7 +6,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 
-import com.GlobalLogic.security.model.DTO.ErrorDTO;
 import com.GlobalLogic.security.model.DTO.LoginDTO;
 import com.GlobalLogic.security.model.DTO.RegisterDTO;
 import com.GlobalLogic.security.model.PlatformUserEntity;
@@ -17,7 +16,6 @@ import com.GlobalLogic.security.repository.UserRepository;
 import com.GlobalLogic.security.service.JwtService;
 import java.util.Collection;
 import java.util.Objects;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
